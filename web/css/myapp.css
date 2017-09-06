@@ -1,0 +1,141 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+.wrapper {
+    background-image: url(../images/bg_space.jpg);
+    padding-top: 70px;
+    min-height: 1000px;
+}
+
+#logo {
+    width: 500px;
+    height: 500px;
+    margin: 0 300px;
+}
+
+.question {
+    background-image: url(../images/question.png);
+    background-color: transparent;
+    border: none;
+    width: 900px;
+    height: 100px;
+    color: white;
+    left: 50%;
+    margin: 30px 0;
+    margin-left: -450px;
+    font-size: 30px;
+    padding: 10px 40px;
+}
+
+.answer {
+    background-image: url(../images/answer.png);
+    background-color: transparent;
+    border: none;
+    width: 550px;
+    height: 70px;
+    color: white;
+    margin: 20px 0;
+    font-size: 30px;
+}
+.answer:hover {
+    background-image: url(../images/answer-hover.png);
+}
+.start {
+    font-size: 40px;
+    padding-top: 0;
+    margin: 50px 7%;
+}
+.start:hover{
+    background-image: url(../images/question-hover.png);
+}
+#logoInGame {
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}
+.footer {
+    position:absolute;
+    padding: 30px;
+    bottom: 0;
+    right: 0;
+    color: white;
+}
+
+.correct {
+    background-image: url(../images/answer-correct.png);
+}
+
+.correct:hover {
+    background-image: url(../images/answer-correct.png);
+}
+
+.incorrect {
+    background-image: url(../images/answer-incorrect.png);
+}
+.incorrect:hover {
+    background-image: url(../images/answer-incorrect.png);
+}
+.next {
+    background-image: url(../images/next.png);
+    background-color: transparent;
+    border: none;
+    width: 550px;
+    height: 70px;
+    color: white;
+    margin: 20px 0;
+    font-size: 30px;
+    position: absolute;
+    left: 50%;
+    margin-left: -275px;
+    margin-top: 50px; 
+}
+.next:hover {
+    background-image: url(../images/next-hover.png);
+}
+.youwon {
+    font-size: 70px;
+    color: white;
+    display: block;
+}
+.grats {
+    font-size: 55px;
+    color: white;
+    display: block;
+}
+.disabled_a {
+    pointer-events: none;
+}
+.pity {
+    font-size: 55px;
+    color: white;
+    display: block;
+    margin-top: -30px;
+}
+.score {
+    background-image: url(../images/score.png);
+    width: 300px;
+    height: 45px;
+    color: white;
+    font-size: 25px;
+    padding-top: 5px;
+}
+.sidebar {
+    position: absolute;
+    top: 50px;
+    right: 30px;
+}
+.score-active {
+    background-image: url(../images/score-active.png);
+}
+.correct-score {
+    background-image: url(../images/score-correct.png);
+}
+.incorrect-score {
+    background-image: url(../images/score-incorrect.png);
+}
