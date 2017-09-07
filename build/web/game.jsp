@@ -18,15 +18,15 @@
 </div>
 <script>
     if(${not empty answered}){
-        for(i=1; i<=${q.getId()}; i++)
+        for(i=1; i<=${qId}; i++)
             $("#score"+i).addClass("correct-score");
     }
     else {
         
-        for(i=1; i<${q.getId()}; i++){
+        for(i=1; i<${qId}; i++){
             $("#score"+i).addClass("correct-score");
         }
-        $("#score"+${q.getId()}).addClass("score-active");
+        $("#score"+${qId}).addClass("score-active");
     }
 </script>
 <div class="content">
@@ -43,7 +43,7 @@
                     
                     <c:forEach items="${al}" var="answer">
                         <div class="col-md-6">
-                            <a href="${contextRoot}/newservlet?qId=${q.getId()}&id=${answer.getId()}&correct=${q.getAnswerId()}" class="answ_a"><button id="${answer.getId()}" class="answer text-center">${abcd[i]}: ${answer.getText()}</button></a>
+                            <a href="${contextRoot}/newservlet?qId=${qId}&id=${answer.getId()}&correct=${q.getAnswerId()}" class="answ_a"><button id="${answer.getId()}" class="answer text-center">${abcd[i]}: ${answer.getText()}</button></a>
                             ${i=i+1}
                         </div>
                     </c:forEach>
@@ -66,7 +66,7 @@
                                     <span class=" text-center pity">YOU LOST!</span>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="${contextRoot}/newservlet?qId=${q.getId()+1}"><button class="answer text-center next">Next Question</button></a>
+                                    <a href="${contextRoot}/newservlet?qId=${qId+1}"><button class="answer text-center next">Next Question</button></a>
                                 </c:otherwise>
                             </c:choose>
                         </div>

@@ -9,6 +9,7 @@
                     <span class="youwon">YOU WON!</span>
                     <span class="grats">Congratulations!</span>
                     <span class="grats">Now you are a millionaire!</span>
+                    <a href="${contextRoot}"><button class="answer text-center next">Play Again!</button></a>
                 </div>
             </div>
         </div>

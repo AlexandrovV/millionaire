@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
 
 /**
  *
@@ -50,54 +53,78 @@ public class NewServlet extends HttpServlet {
         Statement st = null;
         ResultSet rs = null;
         int questionId = Integer.parseInt(request.getParameter("qId"));
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
-            System.out.println("Connected to MySQL!");
-            st= conn.createStatement();
-            
-            String sql = "SELECT * FROM questions WHERE id = "+questionId;
-            
-            rs = st.executeQuery(sql);
-            
-            Question q = null;
-            if(rs.next()){
-                q = new Question(rs.getInt("id"), rs.getString("text"), rs.getInt("answer_id"));
+        HttpSession session = request.getSession();
+        List<Question> ql;
+        if(questionId<=10){
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
+                System.out.println("Connected to MySQL!");
+                if(questionId==1 && request.getParameter("id")==null && request.getParameter("correct")==null){
+                    ql = new ArrayList<>();
+                    st= conn.createStatement();
+                    String sql = "SELECT * FROM questions";
+                    rs = st.executeQuery(sql);
+                    while(rs.next()){
+                        ql.add(new Question(rs.getInt("id"), rs.getString("text"), rs.getInt("answer_id")));
+                    }
+                    Collections.shuffle(ql);
+                    session.setAttribute("ql", ql);
+                }
+                else {
+                    ql=(List<Question>)session.getAttribute("ql");
+                }
+                String sql;
+    //            st= conn.createStatement();
+    //            
+    //            sql = "SELECT * FROM questions WHERE id = "+questionId;
+    //            
+    //            rs = st.executeQuery(sql);
+    //          
+                Question q = null;
+    //            if(rs.next()){
+    //                q = new Question(rs.getInt("id"), rs.getString("text"), rs.getInt("answer_id"));
+    //            }
+                if(request.getParameter("id")!=null && request.getParameter("correct")!=null){
+                    q=ql.get(questionId-1);
+                }
+                else {
+                    q=ql.get(questionId-1);
+                }
+                request.setAttribute("q", q);
+
+                st= conn.createStatement();
+                sql = "SELECT * FROM answers WHERE question_id = "+q.getId();
+                rs = st.executeQuery(sql);
+                List<Answer> al = new ArrayList();
+                while(rs.next()){
+                    al.add(new Answer(rs.getInt("id"), rs.getString("text"), rs.getInt("is_right"), rs.getInt("question_id")));
+                }
+                request.setAttribute("al", al);
+                conn.close();
             }
-            request.setAttribute("q", q);
-            
-            st= conn.createStatement();
-            sql = "SELECT * FROM answers WHERE question_id = "+questionId;
-            rs = st.executeQuery(sql);
-            List<Answer> al = new ArrayList();
-            while(rs.next()){
-                al.add(new Answer(rs.getInt("id"), rs.getString("text"), rs.getInt("is_right"), rs.getInt("question_id")));
+            catch (SQLException e) {
+                System.err.println(e);
             }
-            request.setAttribute("al", al);
-            conn.close();
+
+            if(request.getParameter("id")!=null && request.getParameter("correct")!=null){
+                int a = Integer.parseInt(request.getParameter("id"));
+                int b = Integer.parseInt(request.getParameter("correct"));
+                request.setAttribute("answered", true);
+                if(a == b) {
+                    request.setAttribute("correct", b);
+                }
+                else {
+                    request.setAttribute("correct", b);
+                    request.setAttribute("incorrect", a);
+                }
+
+            }
         }
-        catch (SQLException e) {
-            System.err.println(e);
-        }
-        
-        if(request.getParameter("id")!=null && request.getParameter("correct")!=null){
-            int a = Integer.parseInt(request.getParameter("id"));
-            int b = Integer.parseInt(request.getParameter("correct"));
-            request.setAttribute("answered", true);
-            if(a == b) {
-                request.setAttribute("correct", b);
-            }
-            else {
-                request.setAttribute("correct", b);
-                request.setAttribute("incorrect", a);
-            }
-            
-        }
-        
         request.setAttribute("qId", questionId);
         request.setAttribute("gameStarted", true);
         request.getRequestDispatcher("page.jsp").forward(request, response);
-        
+
         
         
     }
@@ -165,6 +192,10 @@ public class NewServlet extends HttpServlet {
         }
         public int getId() {
             return this.id;
+        }
+        @Override
+        public String toString(){
+            return "q"+this.id;
         }
     } 
     public class Answer {
