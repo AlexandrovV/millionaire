@@ -55,7 +55,7 @@
 
                             <c:if test="${not empty incorrect}">
                                 $("#" + ${incorrect}).addClass("incorrect");
-                                $("#score"+${q.getId()}).addClass("incorrect-score");
+                                $("#score"+${qId}).addClass("incorrect-score");
                             </c:if>
                             $("#" + ${correct}).addClass("correct");
                         </script>
